@@ -13,8 +13,8 @@
     <q-footer elevated>
       <q-toolbar>
         <q-tabs>
-          <q-tab name="home" icon="mail" label="Home" />
-          <q-tab name="camera" icon="alarm" label="Camera" />
+          <q-route-tab to="/" name="home" icon="mail" label="Home" />
+          <q-route-tab to="/camera" name="camera" icon="alarm" label="Camera" />
         </q-tabs>
       </q-toolbar>
     </q-footer>
