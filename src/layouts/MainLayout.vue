@@ -2,13 +2,15 @@
   <q-layout view="lHh Lpr lFf">
     <q-header class="bg-white text-grey-10" bordered>
       <q-toolbar>
+        <q-btn class="large-screen-only" to="/camera" flat round dense size="18px" icon="eva-camera-outline" />
         <q-toolbar-title class="text-grand-hotel text-bold"> 
           Quasagram
         </q-toolbar-title>
+        <q-btn class="large-screen-only" to="/" flat round dense size="18px" icon="eva-home-outline" />
       </q-toolbar>
     </q-header>
 
-    <q-footer class="bg-white" bordered>
+    <q-footer class="bg-white small-screen-only" bordered>
 
         <q-tabs class="text-grey-10" active-color="primary" indicator-color="transparent">
           <q-route-tab to="/" name="home" icon="eva-home-outline"/>
