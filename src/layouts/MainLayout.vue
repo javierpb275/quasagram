@@ -12,7 +12,10 @@
 
     <q-footer elevated>
       <q-toolbar>
-        <q-toolbar-title>Footer</q-toolbar-title>
+        <q-tabs>
+          <q-tab name="home" icon="mail" label="Home" />
+          <q-tab name="camera" icon="alarm" label="Camera" />
+        </q-tabs>
       </q-toolbar>
     </q-footer>
 
