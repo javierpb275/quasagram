@@ -1,8 +1,9 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header class="bg-white text-grey-10" bordered>
-      <q-toolbar>
-        <q-btn class="large-screen-only" to="/camera" flat round dense size="18px" icon="eva-camera-outline" />
+      <q-toolbar class="constrain">
+        <q-btn class="large-screen-only q-mr-sm" to="/camera" flat round dense size="18px" icon="eva-camera-outline" />
+            <q-separator vertical spaced class="large-screen-only"/>
         <q-toolbar-title class="text-grand-hotel text-bold"> 
           Quasagram
         </q-toolbar-title>
@@ -38,9 +39,12 @@ export default defineComponent({
 </script>
 
 <style lang="sass" >
-  .q-toolbar__title
-    text-align: center
+  .q-toolbar 
+    height: 77px
+    
+  .q-toolbar-title
     font-size: 30px
+    text-align: center
 
   .q-footer
     .q-tab__icon
