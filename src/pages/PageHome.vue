@@ -1,6 +1,6 @@
 <template>
   <q-page class="constrain q-pa-md">
-    <q-card class="card-post" flat bordered>
+    <q-card v-for="post in posts" :key="post.id" class="card-post q-mb-md" flat bordered>
       <q-item>
         <q-item-section avatar>
           <q-avatar>
@@ -10,17 +10,17 @@
 
         <q-item-section>
           <q-item-label class="text-bold">Pepe</q-item-label>
-          <q-item-label caption> San Francisco, United States </q-item-label>
+          <q-item-label caption> {{post.location}} </q-item-label>
         </q-item-section>
       </q-item>
 
       <q-separator />
 
-      <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" />
+      <q-img :src="post.imageUrl" />
 
       <q-card-section>
-        <div>Golden Gate Bridge</div>
-        <div class="text-caption text-grey">July 20 20:07 PM</div>
+        <div>{{post.caption}}</div>
+        <div class="text-caption text-grey">{{niceDate(post.date)}}</div>
       </q-card-section>
     </q-card>
   </q-page>
@@ -28,10 +28,14 @@
 
 <script>
 import { defineComponent } from "vue";
+import { date } from 'quasar';
 
 export default defineComponent({
   name: "PageHome",
   setup() {
+    function niceDate(value) {
+        return date.formatDate(value, 'MMMM D h:mmA')
+      };
     return {
       posts: [
         {
@@ -63,6 +67,7 @@ export default defineComponent({
           imageUrl: "https://cdn.quasar.dev/img/parallax2.jpg",
         },
       ],
+      niceDate
     };
   },
 });
