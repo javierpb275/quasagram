@@ -6,6 +6,11 @@
     </div>
     <div class="text-center q-pa-md">
       <q-btn v-if="hasCameraSupport" round color="grey-10" icon="eva-camera" size="lg" @click="captureImage" />
+            <q-file v-else outlined v-model="imageUpload" label="choose an image" accept="image/*" @input="captureImageFallback()">
+        <template v-slot:prepend>
+          <q-icon name="eva-attach-outline" />
+        </template>
+      </q-file>
       <div class="row justify-center q-ma-md">
         <q-input v-model="post.caption" class="col col-sm-6" label="Caption" dense />
       </div>
@@ -54,6 +59,24 @@ export default defineComponent({
       imageCaptured = true;
       this.post.photo = dataURItoBlob(canvas.toDataURL());
     }
+function captureImageFallback(file) {
+  this.post.photo = file;
+  let canvas = this.$refs.canvas;
+  let context = canvas.getContext('2d');
+    var reader = new FileReader();
+    reader.onload = event => {
+        var img = new Image();
+        img.onload = () => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            context.drawImage(img,0,0);
+            imageCaptured = true;
+        }
+        img.src = event.target.result;
+    }
+    reader.readAsDataURL(file);     
+  
+}
 
 function dataURItoBlob(dataURI) {
   // convert base64 to raw binary data held in a string
@@ -89,7 +112,9 @@ function dataURItoBlob(dataURI) {
       },
       captureImage,
       imageCaptured,
-      hasCameraSupport: true
+      hasCameraSupport: true,
+      imageUpload: [],
+      captureImageFallback
       
     }
   }
