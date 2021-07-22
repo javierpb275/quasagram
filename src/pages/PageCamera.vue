@@ -46,7 +46,7 @@
           dense
         >
           <template v-slot:append>
-            <q-btn round dense flat icon="eva-navigation-2-outline" />
+            <q-btn round dense flat icon="eva-navigation-2-outline" @click="getLocation"/>
           </template>
         </q-input>
       </div>
@@ -139,6 +139,28 @@ export default defineComponent({
       var blob = new Blob([ab], { type: mimeString });
       return blob;
     }
+    function getLocation() {
+      navigator.geolocation.getCurrentPosition(position => {
+        getCityAndCountry(position)
+      }, err => {
+        console.log('error: ', err)
+      }, {timeout: 7000})
+    }
+    function getCityAndCountry(position) {
+      let apiUrl = `https://geocode.xyz/${position.coords.latitude},${position.coords.longitude}?json=1`;
+      this.$axios.get(apiUrl).then(result => {
+        console.log('result: ', result);
+        locationSuccess(result);
+      }).catch(err => {
+        console.log('err: ', err);
+      })
+    }
+    function locationSuccess() {
+      this.post.location = result.data.city;
+      if (result.data.country) {
+        this.post.location += `, ${result.data.country}`;
+      }
+    }
 
     return {
       post: {
@@ -153,6 +175,8 @@ export default defineComponent({
       hasCameraSupport: true,
       imageUpload: [],
       captureImageFallback,
+      getLocation
+     
     };
   },
 });
