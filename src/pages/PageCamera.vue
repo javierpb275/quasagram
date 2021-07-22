@@ -41,12 +41,13 @@
       <div class="row justify-center q-ma-md">
         <q-input
           v-model="post.location"
+          :loading="locationLoading"
           class="col col-sm-6"
           label="Location"
           dense
         >
           <template v-slot:append>
-            <q-btn round dense flat icon="eva-navigation-2-outline" @click="getLocation"/>
+            <q-btn v-if="!locationLoading" round dense flat icon="eva-navigation-2-outline" @click="getLocation"/>
           </template>
         </q-input>
       </div>
@@ -81,6 +82,8 @@ export default defineComponent({
   },
   setup() {
     const imageCaptured = false;
+    const locationLoading = false;
+    
     function captureImage() {
       let video = this.$refs.video;
       let canvas = this.$refs.canvas;
@@ -140,6 +143,7 @@ export default defineComponent({
       return blob;
     }
     function getLocation() {
+      locationLoading = true;
       navigator.geolocation.getCurrentPosition(position => {
         getCityAndCountry(position)
       }, err => {
@@ -160,12 +164,14 @@ export default defineComponent({
       if (result.data.country) {
         this.post.location += `, ${result.data.country}`;
       }
+      locationLoading = false;
     }
     function locationError() {
       $q.dialog({
         title: 'Error',
         message: 'Could not find your location'
       })
+      locationLoading = false;
     }
 
     return {
@@ -181,7 +187,8 @@ export default defineComponent({
       hasCameraSupport: true,
       imageUpload: [],
       captureImageFallback,
-      getLocation
+      getLocation,
+      locationLoading
      
     };
   },
