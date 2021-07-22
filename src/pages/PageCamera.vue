@@ -143,7 +143,7 @@ export default defineComponent({
       navigator.geolocation.getCurrentPosition(position => {
         getCityAndCountry(position)
       }, err => {
-        console.log('error: ', err)
+        locationError();
       }, {timeout: 7000})
     }
     function getCityAndCountry(position) {
@@ -152,7 +152,7 @@ export default defineComponent({
         console.log('result: ', result);
         locationSuccess(result);
       }).catch(err => {
-        console.log('err: ', err);
+        locationError()
       })
     }
     function locationSuccess() {
@@ -160,6 +160,12 @@ export default defineComponent({
       if (result.data.country) {
         this.post.location += `, ${result.data.country}`;
       }
+    }
+    function locationError() {
+      $q.dialog({
+        title: 'Error',
+        message: 'Could not find your location'
+      })
     }
 
     return {
