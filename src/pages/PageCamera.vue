@@ -58,6 +58,7 @@ export default defineComponent({
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
       imageCaptured = true;
       this.post.photo = dataURItoBlob(canvas.toDataURL());
+      disableCamera()
     }
 function captureImageFallback(file) {
   this.post.photo = file;
@@ -76,6 +77,12 @@ function captureImageFallback(file) {
     }
     reader.readAsDataURL(file);     
   
+}
+
+function disableCamera() {
+  this.$refs.video.srcObject.getVideoTracks().forEach(track => {
+    track.stop();
+  })
 }
 
 function dataURItoBlob(dataURI) {
@@ -102,6 +109,7 @@ function dataURItoBlob(dataURI) {
   return blob;
 
 }
+
     return {
       post: {
         id: uid(),
